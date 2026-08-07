@@ -13,7 +13,7 @@ client = genai.Client(api_key=api_key)
 
 
 def generate_question(prompt: str) -> str:
-    """Generate an interview question using Gemini."""
+    """Generate an adaptive technical interview question using Gemini."""
 
     response = client.models.generate_content(
         model="gemini-3.5-flash",
@@ -21,8 +21,3 @@ def generate_question(prompt: str) -> str:
     )
 
     return response.text.strip()
-
-if __name__ == "__main__":
-    print(generate_question(
-        "Ask one technical interview question about RAG."
-    ))
