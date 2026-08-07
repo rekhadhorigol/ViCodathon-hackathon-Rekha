@@ -14,3 +14,7 @@ def get_session(session_id: str) -> dict[str, Any]:
         }
 
     return sessions[session_id]
+
+def save_answer(session_id: str, answer: str) -> None:
+    session = get_session(session_id)
+    session["answers"].append(answer)

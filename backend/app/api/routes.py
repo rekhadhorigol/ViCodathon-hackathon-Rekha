@@ -11,7 +11,8 @@ def interview(request: InterviewRequest):
     try:
         return start_interview(
             request.sessionId,
-            request.candidateId
+            request.candidateId,
+            request.answer
         )
 
     except ValueError as e:
