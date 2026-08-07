@@ -2,9 +2,9 @@ from app.services.candidate_service import get_candidate
 from app.services.session_service import get_session
 
 
-def start_interview(candidate_id: str):
+def start_interview(session_id: str, candidate_id: str):
     candidate = get_candidate(candidate_id)
-    session = get_session(candidate_id)
+    session = get_session(session_id)
 
     completed = [
         mission
