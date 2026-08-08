@@ -94,10 +94,16 @@ def evaluate_overall(request: EvaluationRequest):
     candidate = get_candidate(request.candidateId)
     session = get_session(request.sessionId)
 
-    if not session["evaluations"]:
+    if not session["completed"]:
         raise HTTPException(
             status_code=400,
-            detail="No evaluations found for this interview.",
+            detail="Interview is not completed yet.",
+        )
+
+    if len(session["evaluations"]) < 8:
+        raise HTTPException(
+            status_code=400,
+            detail="All 8 question evaluations must be completed first.",
         )
 
     overall_evaluation = generate_overall_evaluation(
@@ -109,3 +115,27 @@ def evaluate_overall(request: EvaluationRequest):
     session["feedback"] = overall_evaluation
 
     return overall_evaluation
+
+@router.get("/api/interview/{session_id}/result")
+def get_interview_result(session_id: str):
+    session = get_session(session_id)
+
+    if not session["completed"]:
+        raise HTTPException(
+            status_code=400,
+            detail="Interview is not completed yet.",
+        )
+
+    if not session["feedback"]:
+        raise HTTPException(
+            status_code=400,
+            detail="Overall evaluation has not been generated yet.",
+        )
+
+    return {
+        "sessionId": session_id,
+        "completed": session["completed"],
+        "questionCount": len(session["questions"]),
+        "evaluations": session["evaluations"],
+        "overallEvaluation": session["feedback"],
+    }
