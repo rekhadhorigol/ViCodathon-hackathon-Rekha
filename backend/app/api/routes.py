@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
 from app.models.interview import InterviewRequest
-from app.services.interview_service import start_interview
+from app.services.interview_service import start_interview, handle_interview_turn
 from app.services.evaluation_service import evaluate_answer
 from pydantic import BaseModel
 from app.services.candidate_service import get_candidate
@@ -20,15 +20,28 @@ class EvaluationRequest(BaseModel):
 
 @router.post("/api/interview")
 def interview(request: InterviewRequest):
+    """Single interview endpoint per technical-spec.md.
+
+    Supports two request shapes on the same route:
+    - {"sessionId", "candidateId", "answer"?}  -> this project's own frontend
+    - {"sessionId", "candidate"?, "message"?}  -> technical-spec.md contract
+    """
     try:
-        return start_interview(
+        if request.candidateId is not None:
+            return start_interview(
+                request.sessionId,
+                request.candidateId,
+                request.answer,
+            )
+
+        return handle_interview_turn(
             request.sessionId,
-            request.candidateId,
-            request.answer
+            request.candidate,
+            request.message,
         )
 
     except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
 
     except GeminiServiceError:
         raise HTTPException(

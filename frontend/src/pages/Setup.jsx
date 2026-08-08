@@ -1,37 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { generateSessionId } from "../utils/session";
 import candidatesData from "../data/candidates.json";
 
+// Local candidate data (matching backend candidate IDs) — no endpoint needed, it's static.
+const candidates = candidatesData.candidates || [];
+
 export default function Setup() {
   const nav = useNavigate();
-  const [candidates, setCandidates] = useState([]);
   const [candidateId, setCandidateId] = useState("");
-  const [experience, setExperience] = useState("");
-  const [difficulty, setDifficulty] = useState("medium");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    // Use local candidate data (matching backend candidate IDs) instead of calling a nonexistent endpoint.
-    setCandidates(candidatesData.candidates || []);
-  }, []);
-
-  useEffect(() => {
-    if (candidateId) {
-      const found = candidates.find((c) => c.member.id === candidateId);
-      setExperience(found?.member?.yearsExperience != null ? String(found.member.yearsExperience) : "");
-    } else {
-      setExperience("");
-    }
-  }, [candidateId, candidates]);
+  const selected = candidates.find((c) => c.member.id === candidateId);
+  const completedCount = selected?.missions?.filter((m) => m.passed).length ?? 0;
 
   function start() {
     if (!candidateId) return alert("Please select a candidate.");
     setLoading(true);
     const sessionId = generateSessionId();
-    // Save session to localStorage for interview flow
-    localStorage.setItem("vicodathon.sessionId", sessionId);
-    localStorage.setItem("vicodathon.candidateId", candidateId);
+    // Save session to localStorage for the interview flow.
+    localStorage.setItem("intmate.sessionId", sessionId);
+    localStorage.setItem("intmate.candidateId", candidateId);
 
     setTimeout(() => {
       setLoading(false);
@@ -40,11 +29,11 @@ export default function Setup() {
   }
 
   return (
-    <div style={{ padding: 28 }}>
+    <div className="page">
       <h2>Interview Setup</h2>
-      <p style={{ color: "var(--text)" }}>Configure the interview for a candidate.</p>
+      <p style={{ color: "var(--text)" }}>Choose a candidate to begin their AI-adapted technical interview.</p>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 20, marginTop: 18 }}>
+      <div className="two-col">
         <div>
           <label style={{ display: "block", marginBottom: 8 }}>Candidate</label>
           <select value={candidateId} onChange={(e) => setCandidateId(e.target.value)} style={selectStyle}>
@@ -54,35 +43,33 @@ export default function Setup() {
             ))}
           </select>
 
-          <label style={{ display: "block", margin: "16px 0 8px" }}>Interview Type</label>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={() => setDifficulty("easy")} style={chip(difficulty === "easy")}>Easy</button>
-            <button onClick={() => setDifficulty("medium")} style={chip(difficulty === "medium")}>Medium</button>
-            <button onClick={() => setDifficulty("hard")} style={chip(difficulty === "hard")}>Hard</button>
-          </div>
-
-          <label style={{ display: "block", margin: "16px 0 8px" }}>Experience (years)</label>
-          <input value={experience} readOnly placeholder="Select a candidate" style={inputStyle} />
-
           <div style={{ marginTop: 24 }}>
             <button onClick={() => window.history.back()} style={{ marginRight: 8 }}>Back</button>
             <button onClick={start} style={primaryButton} disabled={loading}>{loading ? "Starting..." : "Start Interview"}</button>
           </div>
         </div>
 
-        <aside style={{ borderRadius: 12, padding: 18, background: "var(--code-bg)", boxShadow: "var(--shadow)" }}>
-          <h3>Preview</h3>
-          <p style={{ color: "var(--text)" }}>Selected candidate: <strong>{candidateId || "—"}</strong></p>
-          <p style={{ color: "var(--text)" }}>Difficulty: <strong>{difficulty}</strong></p>
+        <aside className="card">
+          <h3 style={{ marginTop: 0 }}>Preview</h3>
+          {selected ? (
+            <>
+              <p style={{ color: "var(--text)" }}>Candidate: <strong style={{ color: "var(--text-h)" }}>{selected.member.name}</strong></p>
+              <p style={{ color: "var(--text)" }}>Role: <strong style={{ color: "var(--text-h)" }}>{selected.member.jobRole}</strong></p>
+              <p style={{ color: "var(--text)" }}>Experience: <strong style={{ color: "var(--text-h)" }}>{selected.member.yearsExperience} years</strong></p>
+              <p style={{ color: "var(--text)" }}>Completed missions: <strong style={{ color: "var(--text-h)" }}>{completedCount}</strong></p>
+            </>
+          ) : (
+            <p style={{ color: "var(--text)" }}>Select a candidate to see their profile here.</p>
+          )}
           <div style={{ height: 12 }} />
-          <p style={{ color: "var(--text)", fontSize: 13 }}>Note: The interview content is generated by the backend AI and adapts to candidate answers.</p>
+          <p style={{ color: "var(--text)", fontSize: 13 }}>
+            The interview questions and feedback are generated live by the AI and adapt to the candidate's answers as they go.
+          </p>
         </aside>
       </div>
     </div>
   );
 }
 
-const selectStyle = { width: "100%", padding: 10, borderRadius: 8, border: "1px solid var(--border)" };
-const inputStyle = { width: "100%", padding: 10, borderRadius: 8, border: "1px solid var(--border)" };
+const selectStyle = { width: "100%", padding: 10, borderRadius: 8, border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)" };
 const primaryButton = { padding: "10px 16px", borderRadius: 8, background: "linear-gradient(90deg,#4f46e5,#6b46c1)", color: "white", border: "none" };
-const chip = (active) => ({ padding: "8px 12px", borderRadius: 8, border: active ? "1px solid rgba(79,70,229,0.8)" : "1px solid var(--border)", background: active ? "rgba(79,70,229,0.06)" : "transparent" });

@@ -6,38 +6,35 @@ export default function Home() {
   return (
     <main id="center">
       <section className="hero" style={{ padding: 48 }}>
-        <div style={{ display: "flex", gap: 36, alignItems: "center", justifyContent: "center" }}>
-          <div style={{ maxWidth: 560, textAlign: "left" }}>
-            <h1>Vicodathon — AI interview platform</h1>
-            <p style={{ fontSize: 18, color: "var(--text)", margin: "12px 0 24px" }}>
-              Run adaptive, AI-powered technical interviews that assess real-world skills and deliver actionable feedback.
-            </p>
+        <div style={{ maxWidth: 640, textAlign: "left", margin: "0 auto" }}>
+          <div style={badgeStyle}>AI-Powered Technical Interviews</div>
+          <h1>Intmate — Your AI Interview Agent</h1>
+          <p style={{ fontSize: 18, color: "var(--text)", margin: "12px 0 24px" }}>
+            Run adaptive, AI-powered technical interviews that assess real-world skills
+            from your learning journey and deliver actionable feedback.
+          </p>
 
-            <div style={{ display: "flex", gap: 12 }}>
-              <button onClick={() => nav("/setup")} style={primaryButton}>Start Interview</button>
-              <button onClick={() => nav("/results")} style={secondaryButton}>View Results</button>
-            </div>
-
-            <div id="next-steps" style={{ marginTop: 32 }}>
-              <div>
-                <h2>How it works</h2>
-                <p style={{ color: "var(--text)" }}>
-                  Select a candidate profile, configure the interview, and the AI will adapt questions based on answers and curriculum progress.
-                </p>
-              </div>
-              <div>
-                <h2>Features</h2>
-                <ul style={{ textAlign: "left", marginTop: 12 }}>
-                  <li>Adaptive question generation</li>
-                  <li>Automated evaluation and feedback</li>
-                  <li>Professional results dashboard</li>
-                </ul>
-              </div>
-            </div>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <button onClick={() => nav("/setup")} style={primaryButton}>Start Interview</button>
+            <button onClick={() => nav("/results")} style={secondaryButton}>View Results</button>
           </div>
 
-          <div style={{ width: 360, borderRadius: 12, boxShadow: "var(--shadow)", padding: 18, background: "linear-gradient(180deg, rgba(79,70,229,0.06), rgba(170,59,255,0.03))" }}>
-            <img src="/src/assets/hero.png" alt="hero" style={{ width: "100%", borderRadius: 8 }} />
+          <div id="next-steps" style={{ marginTop: 32 }}>
+            <div>
+              <h2>How it works</h2>
+              <p style={{ color: "var(--text)" }}>
+                Select a candidate profile, and the AI interviewer adapts every
+                question in real time based on your answers and curriculum progress.
+              </p>
+            </div>
+            <div>
+              <h2>Features</h2>
+              <ul className="hero-feature-list">
+                <li>Adaptive, multi-turn question generation</li>
+                <li>Automated per-answer evaluation and feedback</li>
+                <li>Human-readable results dashboard</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -46,6 +43,19 @@ export default function Home() {
     </main>
   );
 }
+
+const badgeStyle = {
+  display: "inline-block",
+  fontSize: 12,
+  fontWeight: 600,
+  letterSpacing: 0.4,
+  color: "var(--accent)",
+  background: "var(--accent-bg)",
+  border: "1px solid var(--accent-border)",
+  padding: "6px 12px",
+  borderRadius: 999,
+  marginBottom: 12,
+};
 
 const primaryButton = {
   padding: "12px 18px",

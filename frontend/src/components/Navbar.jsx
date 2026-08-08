@@ -1,15 +1,30 @@
 import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+function getInitialTheme() {
+  const saved = localStorage.getItem("intmate.theme");
+  if (saved === "dark" || saved === "light") return saved;
+  return window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
 
 export default function Navbar() {
   const loc = useLocation();
+  const [theme, setTheme] = useState(getInitialTheme);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove("theme-light", "theme-dark");
+    root.classList.add(theme === "dark" ? "theme-dark" : "theme-light");
+    localStorage.setItem("intmate.theme", theme);
+  }, [theme]);
 
   return (
     <header style={styles.header}>
       <div style={styles.brand}>
-        <div style={styles.logo}>V</div>
+        <div style={styles.logo}>I</div>
         <div>
-          <div style={styles.title}>Vicodathon</div>
-          <div style={styles.subtitle}>AI-powered interview platform</div>
+          <div style={styles.title}>Intmate</div>
+          <div style={styles.subtitle}>Your AI Interview Agent</div>
         </div>
       </div>
 
@@ -17,6 +32,15 @@ export default function Navbar() {
         <Link to="/" style={linkStyle(loc.pathname === "/")}>Home</Link>
         <Link to="/setup" style={linkStyle(loc.pathname === "/setup")}>Start</Link>
         <Link to="/results" style={linkStyle(loc.pathname === "/results")}>Results</Link>
+        <button
+          type="button"
+          className="theme-toggle"
+          onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+        >
+          {theme === "dark" ? "☀️" : "🌙"}
+        </button>
       </nav>
     </header>
   );
@@ -30,6 +54,8 @@ const styles = {
     padding: "18px 28px",
     borderBottom: "1px solid var(--border)",
     background: "linear-gradient(90deg, rgba(170,59,255,0.03), transparent)",
+    flexWrap: "wrap",
+    gap: 12,
   },
   brand: { display: "flex", gap: 12, alignItems: "center" },
   logo: {

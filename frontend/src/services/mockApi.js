@@ -61,7 +61,7 @@ function buildEvaluation(questionNumber, answer) {
   return base;
 }
 
-function buildOverallEvaluation(evaluations) {
+function buildOverallEvaluation() {
   return {
     overallScore: 8,
     verdict: "STRONG",
