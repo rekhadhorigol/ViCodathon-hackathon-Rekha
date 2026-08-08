@@ -196,6 +196,27 @@ def _build_spec_feedback(overall: dict) -> dict:
     }
 
 
+def _resolve_full_candidate(candidate: dict) -> dict:
+    """The technical-spec request only guarantees a `candidate` object is present
+    on the first call — it may be a full profile, or a minimal reference like
+    {"id": "CAND-001"}. Always resolve through the existing candidate_service
+    so downstream logic (which expects `member`/`missions`) gets the full record.
+    """
+
+    candidate_id = (
+        candidate.get("id")
+        or candidate.get("candidateId")
+        or (candidate.get("member") or {}).get("id")
+    )
+
+    if not candidate_id:
+        raise ValueError(
+            "The 'candidate' object must include an 'id' (or 'member.id')."
+        )
+
+    return get_candidate(candidate_id)
+
+
 def handle_interview_turn(
     session_id: str,
     candidate: dict | None = None,
@@ -212,7 +233,7 @@ def handle_interview_turn(
     curriculum = load_curriculum()
 
     if candidate and not session.get("spec_candidate"):
-        session["spec_candidate"] = candidate
+        session["spec_candidate"] = _resolve_full_candidate(candidate)
 
     stored_candidate = session.get("spec_candidate")
 
