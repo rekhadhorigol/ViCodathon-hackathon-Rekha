@@ -15,6 +15,7 @@ def start_interview(
     curriculum = load_curriculum()
     session = get_session(session_id)
 
+    # Store the candidate's latest answer.
     if answer:
         session["answers"].append(answer)
 
@@ -25,9 +26,7 @@ def start_interview(
     ]
 
     if not completed:
-        question = (
-            "Tell me about yourself and your AI learning journey."
-        )
+        question = "Tell me about yourself and your AI learning journey."
 
         session["questions"].append(question)
         session["current_question"] = 1
@@ -37,7 +36,7 @@ def start_interview(
             "questionNumber": 1,
         }
 
-    # Prefer completed topics that have not already been asked.
+    # Prefer topics that have not already been used.
     asked_questions = session["questions"]
 
     available_missions = [
@@ -49,7 +48,7 @@ def start_interview(
     if not available_missions:
         available_missions = completed
 
-    # Move through the candidate's completed curriculum topics.
+    # Move through completed curriculum topics.
     mission_index = min(
         session["current_question"],
         len(available_missions) - 1,
@@ -80,8 +79,10 @@ def start_interview(
         )
     )
 
+    latest_answer = answer or "No answer provided yet."
+
     prompt = f"""
-You are conducting a realistic technical interview for an AI engineering cohort.
+You are an adaptive technical interviewer for an AI engineering cohort.
 
 Candidate:
 Name: {candidate["member"]["name"]}
@@ -97,19 +98,33 @@ Learning objectives:
 Tools:
 {topic_details.get("tools", [])}
 
-Previous interview context:
-{previous_context or "No previous answer yet."}
+Previous interview:
+{previous_context or "No previous interview context."}
 
-Generate exactly ONE technical interview question.
+Candidate's latest answer:
+{latest_answer}
 
-Rules:
-- Assess the candidate's actual understanding.
-- Use the previous answer to create a meaningful follow-up when appropriate.
-- Do not repeat previous questions.
-- Keep the question specific to the curriculum topic.
+Your task is to generate EXACTLY ONE next technical interview question.
+
+Adaptive behavior:
+1. If the latest answer shows uncertainty, misunderstanding,
+   or an incomplete explanation, ask a focused follow-up question
+   that probes the weak point.
+2. If the latest answer is strong, increase the difficulty or
+   move toward a practical engineering scenario.
+3. If the topic has been sufficiently assessed, move to another
+   completed curriculum topic.
+4. Use information from the candidate's previous answer when
+   creating follow-up questions.
+5. Never repeat a previous question.
+
+Interview requirements:
+- Assess real technical understanding.
+- Prefer practical engineering scenarios over simple definitions.
 - Match the candidate's experience level.
-- Prefer practical engineering questions over definitions.
-- Do not provide an answer.
+- Stay grounded in the candidate's completed curriculum.
+- Do not ask about topics the candidate has not completed.
+- Do not provide an answer or explanation.
 - Return ONLY the question text.
 """
 
