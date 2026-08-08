@@ -7,7 +7,7 @@ export default function Setup() {
   const nav = useNavigate();
   const [candidates, setCandidates] = useState([]);
   const [candidateId, setCandidateId] = useState("");
-  const [role, setRole] = useState("");
+  const [experience, setExperience] = useState("");
   const [difficulty, setDifficulty] = useState("medium");
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +19,9 @@ export default function Setup() {
   useEffect(() => {
     if (candidateId) {
       const found = candidates.find((c) => c.member.id === candidateId);
-      setRole(found?.member?.jobRole || "");
+      setExperience(found?.member?.yearsExperience != null ? String(found.member.yearsExperience) : "");
+    } else {
+      setExperience("");
     }
   }, [candidateId, candidates]);
 
@@ -60,7 +62,7 @@ export default function Setup() {
           </div>
 
           <label style={{ display: "block", margin: "16px 0 8px" }}>Experience (years)</label>
-          <input value={role} onChange={(e) => setRole(e.target.value)} placeholder="Job role" style={inputStyle} />
+          <input value={experience} readOnly placeholder="Select a candidate" style={inputStyle} />
 
           <div style={{ marginTop: 24 }}>
             <button onClick={() => window.history.back()} style={{ marginRight: 8 }}>Back</button>
