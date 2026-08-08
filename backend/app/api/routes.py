@@ -8,6 +8,7 @@ from app.services.candidate_service import get_candidate
 from app.services.curriculum_service import load_curriculum
 from app.services.session_service import get_session
 from app.services.overall_evaluation_service import generate_overall_evaluation
+from app.services.gemini_service import GeminiServiceError
 
 router = APIRouter()
 
@@ -28,6 +29,12 @@ def interview(request: InterviewRequest):
 
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+    except GeminiServiceError:
+        raise HTTPException(
+            status_code=503,
+            detail="AI service is temporarily unavailable. Please try again.",
+        )
 
 
 @router.post("/evaluate")
@@ -71,14 +78,20 @@ def evaluate(request: EvaluationRequest):
         else []
     )
 
-    evaluation = evaluate_answer(
-        question=question,
-        answer=request.answer,
-        topic=topic,
-        objectives=objectives,
-        candidate_role=candidate["member"]["jobRole"],
-        years_experience=candidate["member"]["yearsExperience"],
-    )
+    try:
+        evaluation = evaluate_answer(
+            question=question,
+            answer=request.answer,
+            topic=topic,
+            objectives=objectives,
+            candidate_role=candidate["member"]["jobRole"],
+            years_experience=candidate["member"]["yearsExperience"],
+        )
+    except GeminiServiceError:
+        raise HTTPException(
+            status_code=503,
+            detail="AI service is temporarily unavailable. Please try again.",
+        )
 
     session["evaluations"].append({
         "questionNumber": request.questionNumber,
@@ -106,11 +119,17 @@ def evaluate_overall(request: EvaluationRequest):
             detail="All 8 question evaluations must be completed first.",
         )
 
-    overall_evaluation = generate_overall_evaluation(
-        evaluations=session["evaluations"],
-        candidate_role=candidate["member"]["jobRole"],
-        years_experience=candidate["member"]["yearsExperience"],
-    )
+    try:
+        overall_evaluation = generate_overall_evaluation(
+            evaluations=session["evaluations"],
+            candidate_role=candidate["member"]["jobRole"],
+            years_experience=candidate["member"]["yearsExperience"],
+        )
+    except GeminiServiceError:
+        raise HTTPException(
+            status_code=503,
+            detail="AI service is temporarily unavailable. Please try again.",
+        )
 
     session["feedback"] = overall_evaluation
 
