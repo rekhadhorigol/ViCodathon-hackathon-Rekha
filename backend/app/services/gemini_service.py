@@ -16,7 +16,7 @@ def generate_question(prompt: str) -> str:
     """Generate an adaptive technical interview question using Gemini."""
 
     response = client.models.generate_content(
-        model="gemini-3.5-flash",
+        model="gemini-3.5-flash-lite",
         contents=prompt,
     )
 
