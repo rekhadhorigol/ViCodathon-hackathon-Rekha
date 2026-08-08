@@ -109,3 +109,25 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* App specific styles for Vicodathon */
+
+main#center {
+  padding-top: 24px;
+}
+
+button {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+}
+
+textarea {
+  font-family: var(--sans);
+}
+
+@media (max-width: 768px) {
+  #root { padding: 0 12px; }
+}

@@ -1,0 +1,164 @@
+{
+  "candidates": [
+    {
+      "member": {
+        "id": "CAND-001",
+        "name": "Sarah Johnson",
+        "jobRole": "Senior Data Engineer",
+        "yearsExperience": 9
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-002",
+        "name": "Alex Turner",
+        "jobRole": "Backend Software Engineer",
+        "yearsExperience": 5
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-003",
+        "name": "Emily Chen",
+        "jobRole": "AI Engineer",
+        "yearsExperience": 6
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-004",
+        "name": "David Miller",
+        "jobRole": "Business Analyst",
+        "yearsExperience": 8
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-005",
+        "name": "Michael Brown",
+        "jobRole": "DevOps Engineer",
+        "yearsExperience": 10
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-006",
+        "name": "Wendy Foster",
+        "jobRole": "Marketing Manager",
+        "yearsExperience": 12
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-007",
+        "name": "Ethan Brooks",
+        "jobRole": "Computer Science Intern",
+        "yearsExperience": 0
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-008",
+        "name": "Harold Whitfield",
+        "jobRole": "Distinguished Engineer",
+        "yearsExperience": 28
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-009",
+        "name": "Zara Ahmadi",
+        "jobRole": "AI Engineer",
+        "yearsExperience": 1
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-010",
+        "name": "Gerald Combs",
+        "jobRole": "IT Support Specialist",
+        "yearsExperience": 20
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-011",
+        "name": "Mia Alvarez",
+        "jobRole": "UX Researcher",
+        "yearsExperience": 6
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-012",
+        "name": "Chen Wei",
+        "jobRole": "Mobile App Developer",
+        "yearsExperience": 7
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-013",
+        "name": "Ravi Patel",
+        "jobRole": "Software Engineer",
+        "yearsExperience": 15
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-014",
+        "name": "Bethany Cole",
+        "jobRole": "HR Manager",
+        "yearsExperience": 10
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-015",
+        "name": "Noah Kim",
+        "jobRole": "Principal Architect",
+        "yearsExperience": 20
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-016",
+        "name": "Isabella Rossi",
+        "jobRole": "Software Engineer",
+        "yearsExperience": 5
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-017",
+        "name": "Tyler Brooks",
+        "jobRole": "Junior Developer",
+        "yearsExperience": 0
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-018",
+        "name": "Diane Foster",
+        "jobRole": "AI Engineer",
+        "yearsExperience": 4
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-019",
+        "name": "Frank DeLuca",
+        "jobRole": "Legacy Systems Engineer",
+        "yearsExperience": 25
+      }
+    },
+    {
+      "member": {
+        "id": "CAND-020",
+        "name": "Priyanka Sharma",
+        "jobRole": "Software Engineer",
+        "yearsExperience": 5
+      }
+    }
+  ]
+}
