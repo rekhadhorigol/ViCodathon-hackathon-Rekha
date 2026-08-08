@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from app.services.candidate_service import get_candidate
 from app.services.curriculum_service import load_curriculum
 from app.services.session_service import get_session
+from app.services.overall_evaluation_service import generate_overall_evaluation
 
 router = APIRouter()
 
@@ -70,7 +71,7 @@ def evaluate(request: EvaluationRequest):
         else []
     )
 
-    return evaluate_answer(
+    evaluation = evaluate_answer(
         question=question,
         answer=request.answer,
         topic=topic,
@@ -78,3 +79,33 @@ def evaluate(request: EvaluationRequest):
         candidate_role=candidate["member"]["jobRole"],
         years_experience=candidate["member"]["yearsExperience"],
     )
+
+    session["evaluations"].append({
+        "questionNumber": request.questionNumber,
+        "question": question,
+        "answer": request.answer,
+        "evaluation": evaluation,
+    })
+
+    return evaluation
+
+@router.post("/evaluate/overall")
+def evaluate_overall(request: EvaluationRequest):
+    candidate = get_candidate(request.candidateId)
+    session = get_session(request.sessionId)
+
+    if not session["evaluations"]:
+        raise HTTPException(
+            status_code=400,
+            detail="No evaluations found for this interview.",
+        )
+
+    overall_evaluation = generate_overall_evaluation(
+        evaluations=session["evaluations"],
+        candidate_role=candidate["member"]["jobRole"],
+        years_experience=candidate["member"]["yearsExperience"],
+    )
+
+    session["feedback"] = overall_evaluation
+
+    return overall_evaluation

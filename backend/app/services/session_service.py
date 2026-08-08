@@ -14,6 +14,7 @@ def get_session(session_id: str) -> dict[str, Any]:
             "questions": [],
             "answers": [],
             "question_topics": [],
+            "evaluations": [],
             "current_question": 0,
             "assessed_days": [],
             "completed": False,

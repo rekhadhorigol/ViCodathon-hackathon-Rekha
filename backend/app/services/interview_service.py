@@ -30,6 +30,7 @@ def start_interview(
             "completed": True,
             "questionNumber": session["current_question"],
             "message": "Interview complete.",
+            "evaluationsReady": len(session["evaluations"]) > 0,
         }
 
     completed = [
