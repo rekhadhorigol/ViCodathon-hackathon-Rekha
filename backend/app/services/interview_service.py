@@ -141,6 +141,12 @@ Adaptive behavior:
     question_number = session["current_question"] + 1
 
     session["questions"].append(question)
+
+    session["question_topics"].append({
+        "day": topic_details["day"],
+        "title": topic_details["title"],
+    })
+
     session["current_question"] = question_number
 
     return {

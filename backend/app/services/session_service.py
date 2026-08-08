@@ -13,6 +13,7 @@ def get_session(session_id: str) -> dict[str, Any]:
         sessions[session_id] = {
             "questions": [],
             "answers": [],
+            "question_topics": [],
             "current_question": 0,
             "assessed_days": [],
             "completed": False,
