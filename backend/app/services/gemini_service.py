@@ -12,12 +12,28 @@ if not api_key:
 client = genai.Client(api_key=api_key)
 
 
+class GeminiServiceError(Exception):
+    """Raised when Gemini content generation fails after retry."""
+
+
 def generate_question(prompt: str) -> str:
     """Generate an adaptive technical interview question using Gemini."""
 
-    response = client.models.generate_content(
-        model="gemini-3.5-flash-lite",
-        contents=prompt,
-    )
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.5-flash-lite",
+            contents=prompt,
+        )
+    except Exception as first_error:
+        try:
+            response = client.models.generate_content(
+                model="gemini-3.5-flash-lite",
+                contents=prompt,
+            )
+        except Exception as retry_error:
+            raise GeminiServiceError(
+                "Gemini question generation failed after retry: "
+                f"{retry_error}"
+            ) from retry_error
 
     return response.text.strip()
