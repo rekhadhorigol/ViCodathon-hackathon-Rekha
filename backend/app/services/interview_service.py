@@ -4,6 +4,9 @@ from app.services.session_service import get_session
 from app.services.gemini_service import generate_question
 
 
+MAX_QUESTIONS = 8
+
+
 def start_interview(
     session_id: str,
     candidate_id: str,
@@ -18,6 +21,16 @@ def start_interview(
     # Store the candidate's latest answer.
     if answer:
         session["answers"].append(answer)
+
+    # Do not generate more questions after the interview limit.
+    if session["current_question"] >= MAX_QUESTIONS:
+        session["completed"] = True
+
+        return {
+            "completed": True,
+            "questionNumber": session["current_question"],
+            "message": "Interview complete.",
+        }
 
     completed = [
         mission
@@ -36,24 +49,21 @@ def start_interview(
             "questionNumber": 1,
         }
 
-    # Prefer topics that have not already been used.
-    asked_questions = session["questions"]
+    # Find topics whose curriculum days have not yet been assessed.
+    assessed_days = session.get("assessed_days", [])
 
     available_missions = [
         mission
         for mission in completed
-        if mission["title"] not in " ".join(asked_questions)
+        if mission["day"] not in assessed_days
     ]
 
+    # If all completed days have been used, allow follow-ups.
     if not available_missions:
         available_missions = completed
 
-    # Move through completed curriculum topics.
-    mission_index = min(
-        session["current_question"],
-        len(available_missions) - 1,
-    )
-
+    # Rotate through different completed curriculum topics.
+    mission_index = session["current_question"] % len(available_missions)
     mission = available_missions[mission_index]
 
     curriculum_day = next(
@@ -71,6 +81,12 @@ def start_interview(
         "objectives": [],
         "tools": [],
     }
+
+    current_day = topic_details["day"]
+
+    # Track this curriculum day as assessed.
+    if current_day not in session["assessed_days"]:
+        session["assessed_days"].append(current_day)
 
     previous_context = "\n".join(
         f"Q{i + 1}: {q}\nA{i + 1}: {a}"
@@ -104,28 +120,20 @@ Previous interview:
 Candidate's latest answer:
 {latest_answer}
 
-Your task is to generate EXACTLY ONE next technical interview question.
+Generate EXACTLY ONE technical interview question.
 
 Adaptive behavior:
-1. If the latest answer shows uncertainty, misunderstanding,
-   or an incomplete explanation, ask a focused follow-up question
-   that probes the weak point.
-2. If the latest answer is strong, increase the difficulty or
-   move toward a practical engineering scenario.
-3. If the topic has been sufficiently assessed, move to another
-   completed curriculum topic.
-4. Use information from the candidate's previous answer when
-   creating follow-up questions.
-5. Never repeat a previous question.
-
-Interview requirements:
-- Assess real technical understanding.
-- Prefer practical engineering scenarios over simple definitions.
-- Match the candidate's experience level.
-- Stay grounded in the candidate's completed curriculum.
-- Do not ask about topics the candidate has not completed.
-- Do not provide an answer or explanation.
-- Return ONLY the question text.
+1. If the latest answer is weak, incomplete, or incorrect,
+   ask a focused follow-up that probes the weakness.
+2. If the latest answer is strong, increase the difficulty
+   or use a realistic engineering scenario.
+3. Avoid repeating questions.
+4. Prefer practical engineering questions over definitions.
+5. Match the candidate's experience level.
+6. Stay grounded in the candidate's completed curriculum.
+7. Use previous answers to maintain conversational context.
+8. Do not provide an answer.
+9. Return ONLY the question text.
 """
 
     question = generate_question(prompt)
@@ -138,4 +146,5 @@ Interview requirements:
     return {
         "question": question,
         "questionNumber": question_number,
+        "assessedDays": session["assessed_days"],
     }
