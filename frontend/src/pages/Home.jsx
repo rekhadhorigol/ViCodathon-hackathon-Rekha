@@ -8,7 +8,7 @@ export default function Home() {
       <section className="hero" style={{ padding: 48 }}>
         <div style={{ maxWidth: 640, textAlign: "left", margin: "0 auto" }}>
           <div style={badgeStyle}>AI-Powered Technical Interviews</div>
-          <h1>Intmate — Your AI Interview Agent</h1>
+          <h2>Intmate — Your AI Interview Agent</h2>
           <p style={{ fontSize: 18, color: "var(--text)", margin: "12px 0 24px" }}>
             Run adaptive, AI-powered technical interviews that assess real-world skills
             from your learning journey and deliver actionable feedback.
