@@ -1,3 +1,23 @@
+Links to chats with AI:
+ChatGPT: (due to free tier, had to use multiple chats 😅)
+1) https://chatgpt.com/share/6a7885a5-2938-83e8-8b39-20dd19f60542
+
+2) https://chatgpt.com/share/6a7885cd-e000-83e8-b0f1-4b5474ead628
+
+3) https://chatgpt.com/share/6a788618-212c-83ee-b4bf-dad4d48cf661
+
+4) https://chatgpt.com/share/6a788d3e-94f8-83e8-a206-a8163a60744d
+
+
+Claude:
+https://claude.ai/share/85951813-0745-4c6b-8f80-fdec20f4b6b5
+
+
+VS Git Copilot: used the prompts (mainly for frontend) given by chatgpt (can verify inside chatgpt links)
+
+
+Important prompts of convo with AI:
+
 # AI Usage Log
 
 ## Prompt 1
