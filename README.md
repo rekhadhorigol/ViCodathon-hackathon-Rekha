@@ -1,4 +1,5 @@
 # Intmate — Your AI Interview Agent
+By Rekha Dhorigol
 
 > **ViCodathon Hackathon — Problem Statement 2: The Interview Agent**
 > **Build the interviewer, not the interview.**
@@ -471,6 +472,21 @@ This prevents an individual AI service failure from producing an uncontrolled ba
 
 ---
 
+## ⚡ Demo & Deployment Notes
+
+The backend is deployed on Render's Free tier. Free Render web services automatically spin down after a period of inactivity and require a short cold-start period when the next request arrives.
+
+Because of this, the **first interaction with the backend after inactivity may take longer than subsequent requests**. During a live demonstration, it is recommended to open the application and allow the backend a short time to wake up before beginning the interview.
+
+The interview itself is fully functional, but AI-powered operations naturally take a few seconds because each question generation and answer evaluation requires a Gemini API request. In particular:
+
+* The first question may take slightly longer if the backend is waking from inactivity.
+* After submitting an answer, generating and evaluating the next question may take a few seconds.
+* After the eighth question, generating the final overall evaluation may take additional time because the system synthesizes the complete interview history and individual evaluations.
+
+These delays are expected for an AI-powered prototype and are primarily caused by **LLM inference latency and the Render Free-tier cold start**, rather than frontend processing.
+
+
 ## 📌 Scope & Limitations
 
 This implementation follows the hackathon scope and uses synthetic challenge data.
@@ -522,6 +538,8 @@ into one complete interview experience.
 
 ## 👤 Participant
 
+**Participant:** Rekha Dhorigol
+
 **Participation:** Solo
 
 **Project:** Intmate — Your AI Interview Agent
@@ -531,3 +549,5 @@ into one complete interview experience.
 ## 📄 License
 
 This project was developed as a hackathon submission using the synthetic curriculum and candidate data provided for the challenge.
+
+*Author: Rekha Dhorigol*

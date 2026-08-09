@@ -140,3 +140,78 @@ Build an adaptive technical interview engine using the candidate profile, comple
 - Added adaptive follow-up question generation.
 - Added progression across completed curriculum topics.
 - Designed the flow to support the required 8-question, 4+ curriculum-day interview.
+
+
+## Prompt 14
+
+### Prompt
+
+Extend the interview agent to evaluate each candidate answer against the current curriculum topic, learning objectives, candidate role, and years of experience. Store structured per-question evaluations and generate an overall assessment after all 8 questions are completed.
+
+### Outcome
+
+* Added structured per-question answer evaluation.
+* Added technical accuracy, depth, clarity, relevance, and experience-aware assessment.
+* Stored evaluations within the interview session.
+* Added overall evaluation generation after interview completion.
+* Added structured strengths, gaps, improvement areas, verdict, score, and recommendation.
+
+## Prompt 15
+
+### Prompt
+
+Implement the technical-spec-compatible interview flow while preserving the existing frontend flow. Support the `/api/interview` contract with `sessionId`, `candidate`, and `message`, maintain multi-turn session state, return `reply` and `done`, and provide structured final feedback after completing the interview.
+
+### Outcome
+
+* Added a technical-spec-compatible interview flow.
+* Preserved compatibility with the project's existing frontend.
+* Added candidate resolution from the technical-spec candidate object.
+* Maintained session state across multiple requests.
+* Added `done` and structured `feedback` responses.
+* Verified the complete 8-question interview lifecycle.
+
+## Prompt 16
+
+### Prompt
+
+Add reliable Gemini API failure handling so transient AI failures are retried and persistent failures return a controlled HTTP 503 response instead of crashing the interview flow.
+
+### Outcome
+
+* Added Gemini retry handling.
+* Added controlled `503 Service Unavailable` responses.
+* Prevented individual AI service failures from producing uncontrolled backend errors.
+* Kept the interview API predictable during temporary Gemini failures.
+
+## Prompt 17
+
+### Prompt
+
+Review the complete AI Interview Agent against the hackathon requirements and verify the full lifecycle from candidate selection through adaptive questioning, per-question evaluation, interview completion, overall evaluation, and final results.
+
+### Outcome
+
+* Verified the complete interview lifecycle.
+* Confirmed the minimum 8-question requirement.
+* Verified multi-turn conversation state.
+* Verified curriculum-aware question generation.
+* Verified per-question evaluations.
+* Verified overall evaluation generation.
+* Tested the deployed frontend and backend integration.
+* Confirmed the final interview result endpoint.
+
+## Prompt 18
+
+### Prompt
+
+Prepare the AI Interview Agent for final hackathon submission by documenting the architecture, AI usage, technology stack, deployment, testing process, limitations, and future improvements while keeping the implementation aligned with the stated problem requirements.
+
+### Outcome
+
+* Documented the complete system architecture.
+* Documented AI usage and prompt-driven development.
+* Documented deployment and testing.
+* Documented known prototype limitations.
+* Documented future production improvements.
+* Prepared the repository for final hackathon submission.
