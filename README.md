@@ -1,10 +1,11 @@
-# ViCodathon — AI Interview Agent
+# Intmate — Your AI Interview Agent
 
 > **ViCodathon Hackathon — Problem Statement 2: The Interview Agent**
+> **Build the interviewer, not the interview.**
 
-**Build the interviewer, not the interview.**
+**Intmate** is an AI-powered technical interview platform that conducts personalized, multi-turn interviews based on a candidate's learning journey through the 31-day AI Cohort.
 
-An AI-powered technical interview platform that conducts personalized, multi-turn interviews based on a candidate's learning journey through the 31-day AI Cohort.
+---
 
 ## 🎯 Problem
 
@@ -22,13 +23,13 @@ Although learners complete practical AI engineering work throughout the cohort, 
 
 Traditional interview systems often rely on fixed question sets and do not account for what a candidate has actually learned.
 
-**ViCodathon's AI Interview Agent solves this by generating a personalized technical interview from the candidate's completed learning journey.**
+**Intmate solves this by generating a personalized technical interview from the candidate's completed learning journey.**
 
 ---
 
 ## 💡 Solution
 
-ViCodathon conducts an adaptive, multi-turn technical interview that:
+Intmate conducts an adaptive, multi-turn technical interview that:
 
 1. Identifies the candidate's completed curriculum topics.
 2. Generates technical questions grounded in those topics.
@@ -84,7 +85,7 @@ Each answer is evaluated on:
 
 ### Overall Assessment
 
-After the interview, the system generates:
+After the interview, Intmate generates:
 
 * Overall score
 * Verdict
@@ -113,28 +114,28 @@ If Gemini fails twice, the backend returns a controlled `503 Service Unavailable
                                ▼
                     ┌─────────────────────┐
                     │   React Frontend    │
-                    │      (Vercel)       │
+                    │       Vercel        │
                     └──────────┬──────────┘
                                │ HTTP
                                ▼
                     ┌─────────────────────┐
                     │   FastAPI Backend   │
-                    │      (Render)       │
+                    │       Render        │
                     └──────────┬──────────┘
                                │
-                ┌──────────────┼──────────────┐
-                ▼              ▼              ▼
-        ┌──────────────┐ ┌─────────────┐ ┌──────────────┐
-        │ Interview    │ │ Evaluation  │ │   Session    │
-        │ Service      │ │ Services    │ │   Service    │
-        └──────┬───────┘ └──────┬──────┘ └──────────────┘
-               │                │
-               └────────┬───────┘
-                        ▼
-               ┌──────────────────┐
-               │   Gemini API     │
-               │  AI Generation   │
-               └──────────────────┘
+              ┌────────────────┼────────────────┐
+              ▼                ▼                ▼
+       ┌──────────────┐ ┌─────────────┐ ┌──────────────┐
+       │ Interview    │ │ Evaluation  │ │   Session    │
+       │ Service      │ │ Services    │ │   Service    │
+       └──────┬───────┘ └──────┬──────┘ └──────────────┘
+              │                │
+              └────────┬───────┘
+                       ▼
+              ┌──────────────────┐
+              │    Gemini API    │
+              │  AI Generation   │
+              └──────────────────┘
 ```
 
 ---
@@ -179,7 +180,7 @@ Display interview results
 
 ## 📋 Hackathon Requirements
 
-The implementation is designed around the minimum requirements of Problem Statement 2.
+The implementation is designed around the requirements of **ViCodathon Problem Statement 2 — The Interview Agent**.
 
 | Requirement                        | Implementation                                                                   |
 | ---------------------------------- | -------------------------------------------------------------------------------- |
@@ -189,13 +190,13 @@ The implementation is designed around the minimum requirements of Problem Statem
 | Follow-up questions                | Gemini receives the latest answer and previous interview context                 |
 | Conversation context               | Previous questions and answers are included in generation context                |
 | Structured feedback                | Per-question and overall evaluations are generated as structured JSON            |
-| Required HTTP API                  | FastAPI exposes the interview and evaluation endpoints                           |
+| Required HTTP API                  | FastAPI exposes interview and evaluation endpoints                               |
 
 ---
 
 ## 🧠 AI Interviewer
 
-The interviewer uses Gemini to perform two major AI tasks:
+Intmate uses Gemini for three major AI tasks.
 
 ### 1. Question Generation
 
@@ -209,9 +210,7 @@ The model receives:
 * Previous interview questions and answers
 * Latest candidate answer
 
-It then generates exactly one technical question.
-
-The interviewer is instructed to:
+It is instructed to:
 
 * Probe weaknesses with follow-ups
 * Increase difficulty after strong answers
@@ -219,6 +218,7 @@ The interviewer is instructed to:
 * Prefer practical engineering scenarios
 * Match candidate experience
 * Stay within completed curriculum topics
+* Generate exactly one technical question
 
 ### 2. Answer Evaluation
 
@@ -234,7 +234,7 @@ The result is returned as structured JSON.
 
 ### 3. Overall Evaluation
 
-After all interview questions are evaluated, Gemini synthesizes the individual evaluations into an overall assessment.
+After the interview, Gemini synthesizes the individual evaluations into an overall assessment containing the candidate's strengths, gaps, improvement areas, verdict, score, and recommendation.
 
 ---
 
@@ -369,7 +369,7 @@ npm run dev
 
 The Vite development server will provide the local frontend URL.
 
-Configure the frontend API base URL using:
+Configure the frontend API base URL:
 
 ```env
 VITE_API_BASE=http://localhost:8000
@@ -400,10 +400,12 @@ The deployed backend receives the Gemini API key through the hosting provider's 
 
 ## 🌐 Live Demo
 
-**Frontend:**
+### Frontend
+
 https://ai-interview-agent-vicodathon.vercel.app/
 
-**Backend:**
+### Backend
+
 https://ai-interview-agent-vicodathon.onrender.com/
 
 ---
@@ -436,14 +438,19 @@ Overall Evaluation
 Results
 ```
 
-Testing also verifies:
+Testing verifies:
 
-* Gemini failure handling
+* Complete 8-question interview flow
+* Gemini API communication
+* Adaptive question generation
+* Per-question evaluation
+* Overall evaluation
 * API communication
 * CORS configuration
 * Deployment
 * Candidate experience data
 * Structured evaluation responses
+* Gemini failure handling
 
 ---
 
@@ -477,7 +484,7 @@ Current prototype limitations include:
 * Voice interaction is not implemented.
 * The application is designed primarily as a hackathon prototype.
 
-These limitations are consistent with the challenge's stated out-of-scope items.
+These limitations are intentional and appropriate for the current hackathon prototype scope.
 
 ---
 
@@ -493,7 +500,7 @@ Potential production extensions include:
 * Interview difficulty calibration across sessions
 * Human interviewer review
 * Analytics dashboards
-* More advanced agent orchestration
+* Advanced agent orchestration
 * Production-grade observability and monitoring
 
 ---
@@ -503,17 +510,21 @@ Potential production extensions include:
 **Hackathon:** ViCodathon
 **Problem Statement:** 2 — The Interview Agent
 
-The challenge asks teams to **build the interviewer, not the interview**: an AI agent capable of conducting a realistic, personalized, multi-turn technical interview based on a candidate's learning journey.
+The challenge asks participants to **build the interviewer, not the interview**: an AI agent capable of conducting a realistic, personalized, multi-turn technical interview based on a candidate's learning journey.
 
-ViCodathon addresses this by connecting curriculum progress, candidate context, adaptive questioning, answer evaluation, and final feedback into one interview experience.
+Intmate addresses this by connecting:
+
+**Curriculum Progress → Candidate Context → Adaptive Questioning → Answer Evaluation → Final Assessment**
+
+into one complete interview experience.
 
 ---
 
-## 👥 Team
+## 👤 Participant
 
-**Team:** ViCodathon
+**Participation:** Solo
 
-<!-- Add team member names before submission. -->
+**Project:** Intmate — Your AI Interview Agent
 
 ---
 
