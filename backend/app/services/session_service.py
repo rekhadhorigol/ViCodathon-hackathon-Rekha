@@ -19,6 +19,7 @@ def get_session(session_id: str) -> dict[str, Any]:
             "assessed_days": [],
             "completed": False,
             "feedback": None,
+            "spec_candidate": None,
         }
 
     return sessions[session_id]
