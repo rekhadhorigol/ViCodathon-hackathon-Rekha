@@ -215,3 +215,19 @@ Prepare the AI Interview Agent for final hackathon submission by documenting the
 * Documented known prototype limitations.
 * Documented future production improvements.
 * Prepared the repository for final hackathon submission.
+
+## Prompt 19
+
+### Prompt
+
+Improve the frontend API service reliability by adding retry handling for failed backend requests. The frontend should automatically retry a failed API request up to three times with a short delay between attempts, while displaying a controlled user-friendly error message if all attempts fail. Keep the existing interview API flow and mock API support unchanged.
+
+### Outcome
+
+* Added reusable retry logic for frontend API requests.
+* Configured up to 3 attempts for failed requests.
+* Added a 5-second delay between retry attempts.
+* Preserved the existing interview and mock API flows.
+* Added a controlled user-friendly error message when all retry attempts fail.
+* Verified that the deployed 8-question interview flow continues to work successfully.
+

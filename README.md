@@ -8,6 +8,16 @@ By Rekha Dhorigol
 
 ---
 
+## 🚀 At a Glance
+
+**Intmate** transforms curriculum progress into an adaptive technical interview:
+
+**Completed Learning → Candidate Context → AI Question → Candidate Answer → Evaluation → Adaptive Follow-up → Final Assessment**
+
+The platform conducts a minimum 8-question interview and produces both per-question evaluations and a final technical assessment.
+
+---
+
 ## 🎯 Problem
 
 The AI Cohort is a 31-day enterprise AI engineering program covering topics such as:
@@ -40,6 +50,22 @@ Intmate conducts an adaptive, multi-turn technical interview that:
 6. Produces a structured overall assessment at the end.
 
 The goal is to make the interaction feel like a **real technical interview rather than a scripted questionnaire**.
+
+---
+
+## 🌟 Why Intmate?
+
+Intmate is useful because it turns a candidate's actual learning progress into a realistic technical interview.
+
+Instead of asking every candidate the same predefined questions, it:
+
+- Tests what the candidate has actually learned.
+- Adjusts question difficulty based on responses.
+- Connects questions to the candidate's completed curriculum.
+- Evaluates both individual answers and overall technical performance.
+- Provides actionable strengths, gaps, and improvement recommendations.
+
+This makes the interview more personalized, context-aware, and useful for identifying real technical readiness.
 
 ---
 
@@ -259,8 +285,11 @@ After the interview, Gemini synthesizes the individual evaluations into an overa
 
 ### AI
 
-* Google Gemini API
-* Gemini Flash Lite
+- Google Gemini API
+- Gemini Flash Lite
+- Prompt-based adaptive question generation
+- LLM-based answer evaluation
+- LLM-based overall assessment
 
 ### Data
 
